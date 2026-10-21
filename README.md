@@ -10,7 +10,10 @@ Weather web app (PWA) in the style of WetterOnline, built on the same public dat
 | Rain radar Germany | DWD GeoServer (Niederschlagsradar) |
 | Weather warnings | DWD via Bright Sky |
 | Pollen, air quality | CAMS Europe via Open-Meteo |
+| Trail grip for MTB (Werksboden / Normal / Dry / Wet) | DWD station rain via Bright Sky + DWD ICON forecast and evaporation via Open-Meteo |
 | Place search | Open-Meteo geocoding |
+
+Standard location: Esslingen am Neckar.
 
 No API keys, no account, no tracking. Favourites and the last forecast stay on the phone.
 
