@@ -171,7 +171,12 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
   background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;max-width:90vw}
 
 /* trails */
-:root{--t-perfect:#1f8f4e;--t-normal:#3d7fa6;--t-dry:#c9952f;--t-wet:#7a4b2c}
+:root{--t-perfect:#1f8f4e;--t-normal:#3d7fa6;--t-dry:#c9952f;--t-wet:#7a4b2c;--t-storm:#b3192b;--t-caution:#e8a10c}
+.st-storm{background:var(--t-storm);color:#fff}
+.tcaution{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:11px 13px;background:var(--t-caution);color:#2b1d00;font-size:14px;line-height:1.4}
+.tcaution b{display:block}
+.td .gu{font-size:11px;color:var(--muted)} .td .gu.hi{color:var(--t-storm);font-weight:700}
+.td .c.st-storm{color:#fff}
 .tstat{border-radius:18px;padding:16px;color:#fff;display:flex;flex-direction:column;gap:6px}
 .tstat .k{font:600 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
 .tstat b{font:700 34px/1.05 var(--f-display)}
@@ -192,6 +197,18 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
 .step{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .step button{width:40px;height:38px;border:0;background:var(--bg);font-size:18px;font-weight:600}
 .step output{min-width:64px;text-align:center;font-weight:600}
+
+/* calibration */
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0)}
+.calwrap{overflow-x:auto;margin-top:12px}
+.caltab{width:100%;border-collapse:collapse;font-size:13.5px;min-width:300px}
+.caltab th,.caltab td{padding:8px 6px;border-top:1px solid var(--line);text-align:right;vertical-align:top}
+.caltab th:first-child,.caltab td:first-child{text-align:left;color:var(--muted);font-weight:500}
+.caltab thead th{border-top:0;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.caltab tr.sug td{font-weight:700;color:var(--ink);font-size:15px}
+.caltab tr.sug td:first-child{color:var(--ink)}
+.calnote{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.5}
+.calnote b{color:var(--ink)}
 
 /* weather icons */
 .wi{display:block}
@@ -264,16 +281,27 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
     <div class="card"><h2>Trail grip by day · at 3 pm</h2><div id="tdays"></div></div>
     <div class="card"><h2>Rain and trail wetness · 14 days back, 7 ahead</h2><div class="hscroll" id="tchart"></div></div>
     <div class="grid" id="tfacts"></div>
-    <div class="card"><h2>Drying rule for your region</h2>
-      <p class="foot" style="margin:0 0 10px">Dry days the trails need after a heavy rain. A light shower needs proportionally less.</p>
+    <div class="card"><h2>Your trail rules</h2>
+      <p class="foot" style="margin:0 0 10px">Fitted to your 179 rides on Kappelberg, Korb and Schorndorf (2024–2026). Dry days the trails need after a heavy rain (a light shower needs proportionally less), and the gust speed from which riding in the forest is too dangerous.</p>
       <div class="trule">
-        <label for="dWarm">Spring / summer (Mar–Aug)</label>
-        <div class="step"><button data-k="warm" data-d="-0.5" aria-label="Fewer days">−</button><output id="dWarm"></output><button data-k="warm" data-d="0.5" aria-label="More days">+</button></div>
-        <label for="dCold">Fall / winter (Sep–Feb)</label>
+        <label for="dWarm">Spring / summer (Apr–Sep)</label>
+        <div class="step"><button data-k="warm" data-d="-0.25" aria-label="Fewer days">−</button><output id="dWarm"></output><button data-k="warm" data-d="0.25" aria-label="More days">+</button></div>
+        <label for="dCold">Fall / winter (Oct–Mar)</label>
         <div class="step"><button data-k="cold" data-d="-0.5" aria-label="Fewer days">−</button><output id="dCold"></output><button data-k="cold" data-d="0.5" aria-label="More days">+</button></div>
+        <label for="dGust">Too windy to ride from gusts of</label>
+        <div class="step"><button data-k="gust" data-d="-5" aria-label="Lower limit">−</button><output id="dGust"></output><button data-k="gust" data-d="5" aria-label="Higher limit">+</button></div>
       </div>
     </div>
-    <p class="foot">How it works: every hour of rain fills a “trail wetness” store (full after about 12 mm). It empties at the speed of your drying rule, adjusted by how much the sun and wind actually evaporate that day compared with the seasonal normal (FAO evapotranspiration). Wet = store above 2 mm. Werksboden = the first days after drying out (up to 3 days in spring/summer, 5 in fall/winter). Dry = after about 25 mm of evaporation without rain. Past rain: DWD station measurements via Bright Sky, gaps filled from the DWD ICON analysis. Future: DWD ICON forecast via Open-Meteo.</p>
+    <div class="card" id="calCard"><h2>Learn from my rides</h2>
+      <p class="foot" style="margin:0 0 12px">Load a file with your riding days: date and place, or date with latitude/longitude, or a Strava <i>activities.csv</i>. The app downloads the rain history for each place and finds the drying times that match when you actually rode. Rides without a place count for the place shown at the top.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <label class="btn primary" for="calFile" tabindex="0">Choose ride file</label>
+        <input type="file" id="calFile" accept=".csv,.txt,text/csv,text/plain" class="vh">
+        <span class="foot" id="calMsg"></span>
+      </div>
+      <div id="calOut"></div>
+    </div>
+    <p class="foot">How it works: every hour of rain fills a “trail wetness” store (full after about 12 mm). It empties at the speed of your drying rule, adjusted by how much the sun and wind actually evaporate that day compared with the seasonal normal (FAO evapotranspiration). Wet = store above 2 mm. Werksboden = the first days after drying out (up to 3 days in April–September, 5 in October–March). Dry = after about 25 mm of evaporation without rain. Storm safety: “Don’t ride” when gusts reach your limit (default 60 km/h, Beaufort 7–8) or the DWD has a storm, thunderstorm or snow-break warning for this place. Gusts from 45 km/h and the 24 hours after a storm (48 hours after gusts of 75 km/h or a severe warning) are marked with ⚠ because of falling branches and fallen trees. Past rain: DWD station measurements via Bright Sky, gaps filled from the DWD ICON analysis. Future: DWD ICON forecast via Open-Meteo.</p>
   </section>
 
   <!-- POLLEN & AIR -->
@@ -385,7 +413,7 @@ async function load(){
   const aq=`https://air-quality-api.open-meteo.com/v1/air-quality?${base}&current=european_aqi,pm2_5,pm10,ozone,nitrogen_dioxide`+
    `&hourly=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&forecast_days=4`;
   const al=`https://api.brightsky.dev/alerts?lat=${L.lat}&lon=${L.lon}`;
-  const tr=`https://api.open-meteo.com/v1/forecast?${base}&past_days=14&forecast_days=7&hourly=precipitation,temperature_2m,soil_moisture_0_to_1cm&daily=precipitation_sum,et0_fao_evapotranspiration`;
+  const tr=`https://api.open-meteo.com/v1/forecast?${base}&past_days=14&forecast_days=7&hourly=precipitation,temperature_2m,soil_moisture_0_to_1cm,wind_gusts_10m&daily=precipitation_sum,et0_fao_evapotranspiration`;
   const d0=new Date(Date.now()-14*864e5), d1=new Date(Date.now()+864e5), iso=d=>d.toISOString().slice(0,10);
   const bs=`https://api.brightsky.dev/weather?lat=${L.lat}&lon=${L.lon}&date=${iso(d0)}&last_date=${iso(d1)}&tz=Europe/Berlin`;
   const [f,a,w,t,o]=await Promise.allSettled([getJSON(fc),getJSON(aq),getJSON(al),getJSON(tr),getJSON(bs)]);
@@ -539,17 +567,30 @@ function renderAir(){
 
 /* ---------- trails (MTB grip) ---------- */
 const TR={cap:12,wetT:2,dryEt0:25,perfectEt0:10};
-const ET0N=[.4,.7,1.4,2.4,3.2,3.8,4.0,3.4,2.2,1.2,.5,.3]; // seasonal normal evaporation, mm/day, Neckar valley
+const ET0N=[0.6,0.9,1.7,2.9,3.5,4.4,4.3,4.0,2.4,1.3,0.7,0.5]; // normal evaporation, mm/day, Kappelberg/Korb/Schorndorf 2024–2026 (DWD ICON)
 const TST={perfect:["Werksboden","perfect grip"],normal:["Normal","firm, good grip"],dry:["Dry","dusty, loose"],wet:["Wet","slippery"]};
-const trailCfg=()=>LS.get("trailCfg",{warm:2,cold:5});
-const warmM=m=>m>=2&&m<=7; // Mar–Aug
+// Defaults fitted to 179 home-trail rides (Kappelberg, Korb, Schorndorf, Mar 2024 – Sep 2026) against hourly DWD ICON rain
+const TRAIL_DEFAULT={warm:1.75,cold:4.5,gust:60};
+(function(){try{if(LS.get("trailCfgV",0)<2){const c=LS.get("trailCfg",null);
+  if(c&&c.warm===2&&c.cold===5){c.warm=TRAIL_DEFAULT.warm;c.cold=TRAIL_DEFAULT.cold;LS.set("trailCfg",c)}LS.set("trailCfgV",2)}}catch(e){}})();
+const trailCfg=()=>Object.assign({},TRAIL_DEFAULT,LS.get("trailCfg",{}));
+const CAUTION_GUST=45, SEVERE_GUST=75;
+function alertLevel(a){const e=(a.event_de||"")+" "+(a.event_en||"");
+  if(/ORKAN|STURM|GEWITTER|THUNDER|STORM|HURRICANE|SCHNEEBRUCH|SNOW.?BREAK/i.test(e))return 2;
+  if(/WIND|BÖEN|GUST/i.test(e))return a.severity==="minor"?1:2;
+  if(/GLATTEIS|GLÄTTE|BLACK ICE|ICY/i.test(e))return 1;
+  return 0}
+function alertsAt(ms){let lv=0,ev=null;(S.alerts||[]).forEach(a=>{const on=Date.parse(a.onset||a.effective||0),ex=Date.parse(a.expires||0)||Infinity;
+  const l=alertLevel(a);if(l&&ms>=on&&ms<ex&&l>lv){lv=l;ev=a}});return {lv,ev}}
+const warmM=m=>m>=3&&m<=8; // Apr–Sep (your rides: September still dries like summer, October is slow)
 function trailModel(){
   const t=S.trail; if(!t||!t.hourly)return null;
   const cfg=trailCfg(), H=t.hourly, et0={};
   t.daily.time.forEach((d,i)=>et0[d]=t.daily.et0_fao_evapotranspiration[i]);
   const nowT=(S.f&&S.f.current?S.f.current.time:H.time[H.time.length-1]).slice(0,13)+":00";
-  const obs={}; let nObs=0;
-  if(S.obs&&S.obs.weather)S.obs.weather.forEach(r=>{const k=(r.timestamp||"").slice(0,16);if(r.precipitation!=null&&k<=nowT){obs[k]=r.precipitation;nObs++}});
+  const obs={},obsG={}; let nObs=0;
+  if(S.obs&&S.obs.weather)S.obs.weather.forEach(r=>{const k=(r.timestamp||"").slice(0,16);if(k>nowT)return;
+    if(r.precipitation!=null){obs[k]=r.precipitation;nObs++} if(r.wind_gust_speed!=null)obsG[k]=r.wind_gust_speed});
   let W=TR.cap/2, dryH=0, eSince=0; const out=[];
   H.time.forEach((tm,i)=>{
     const m=+tm.slice(5,7)-1, d=tm.slice(0,10), warm=warmM(m), days=warm?cfg.warm:cfg.cold;
@@ -559,7 +600,21 @@ function trailModel(){
     if(p<0.1)W=Math.max(0,W-TR.cap/(days*24)*f);
     if(W>TR.wetT){dryH=0;eSince=0}else{dryH++;eSince+=e/24}
     const st=W>TR.wetT?"wet":eSince>=TR.dryEt0?"dry":(dryH<=(warm?72:120)&&eSince<TR.perfectEt0)?"perfect":"normal";
-    out.push({tm,p,W,st,dryH,eSince,warm,days,temp:H.temperature_2m[i],soil:H.soil_moisture_0_to_1cm?H.soil_moisture_0_to_1cm[i]:null,past});
+    const gm=H.wind_gusts_10m?H.wind_gusts_10m[i]:null, gu=(past&&obsG[tm]!=null)?Math.max(obsG[tm],0):gm;
+    out.push({tm,p,W,st,dryH,eSince,warm,days,gu,temp:H.temperature_2m[i],soil:H.soil_moisture_0_to_1cm?H.soil_moisture_0_to_1cm[i]:null,past});
+  });
+  // hazards: 2 = don't ride, 1 = caution
+  let lastD=-1e9,lastStrong=false;
+  out.forEach((x,i)=>{
+    const al=alertsAt(new Date(x.tm).getTime()); let hz=0,why="";
+    if(x.gu!=null&&x.gu>=cfg.gust){hz=2;why="gust"} if(al.lv===2){hz=2;why=why||"warning"}
+    if(hz===2){lastD=i;lastStrong=(x.gu||0)>=SEVERE_GUST||al.lv===2&&/ORKAN|SCHWER|HURRICANE|SEVERE|EXTREM/i.test((al.ev.event_de||"")+(al.ev.severity||""))}
+    else{
+      if(i-lastD<=(lastStrong?48:24)){hz=1;why="after"}
+      if(x.gu!=null&&x.gu>=CAUTION_GUST){hz=1;why=why||"windy"}
+      if(al.lv===1){hz=1;why=why||"warning"}
+    }
+    x.hz=hz;x.why=why;x.al=al.ev;
   });
   const iNow=Math.max(0,out.findIndex(x=>x.tm===nowT));
   return {out,iNow,nObs,et0};
@@ -595,18 +650,44 @@ function renderTrail(){
     txt=`Dusty and loose after a long dry spell (${lastTxt}). Expect drifting in corners and longer braking. `+(nx?`${nx.st==="wet"?"Rain":"Change"} expected ${whenTxt(nx.tm,now.tm)}.`:"");
   }
   if(now.temp!=null&&now.temp<0)txt+=" Ground may be frozen – watch for ice on roots and rocks.";
-  $("#tstat").className="tstat st-"+now.st;
-  $("#tstat").innerHTML=`<span class="k">Trails around ${esc(S.loc.name)} · now</span><b>${TST[now.st][0]}</b><span style="opacity:.9">${TST[now.st][1]}</span><p>${txt}</p>`;
-  slot.innerHTML=`<button class="trailbar st-${now.st}" id="trailJump"><span>Trails: ${TST[now.st][0]} <small>· ${TST[now.st][1]}</small></span>›</button>`;
+  const cfg=trailCfg(), gNext=Math.max(0,...out.slice(iNow,iNow+24).map(x=>x.gu||0));
+  const alName=a=>esc(a.event_en||a.event_de);
+  let caution="";
+  if(now.hz===2){
+    const k=out.findIndex((x,i)=>i>iNow&&x.hz<2);
+    const pk=Math.max(0,...out.slice(iNow,k>0?k:out.length).map(x=>x.gu||0));
+    const reason=now.why==="gust"?`Gusts up to ${r0(pk)} km/h`:`DWD warning: ${alName(now.al)}`;
+    $("#tstat").className="tstat st-storm";
+    $("#tstat").innerHTML=`<span class="k">Trails around ${esc(S.loc.name)} · now</span><b>Don’t ride</b><span style="opacity:.9">storm – falling trees and branches</span>
+      <p>${reason}. In the forest, trees and dead branches can come down without warning. ${k>0?`The storm should be over ${whenTxt(out[k].tm,now.tm)}; stay out of the forest for at least a day after that, as broken branches can still fall.`:"No calmer window in the next 7 days."}</p>
+      <p style="opacity:.85">Soil: ${TST[now.st][0]} (${TST[now.st][1]}).</p>`;
+    slot.innerHTML=`<button class="trailbar st-storm" id="trailJump"><span>Trails: Don’t ride <small>· ${now.why==="gust"?"storm gusts "+r0(now.gu)+" km/h":alName(now.al)}</small></span>›</button>`;
+  }else{
+    if(now.hz===1){
+      caution=now.why==="after"?`<b>After the storm</b>Fallen trees, hanging branches and blocked trails are likely. Ride slowly, look up, and turn back where trees lean on others.`
+        :now.why==="windy"?`<b>Windy – gusts ${r0(now.gu)} km/h</b>Avoid trails under dead or damaged trees and stay out of the forest if it gets stronger.`
+        :`<b>${alName(now.al)}</b>Official DWD warning for this area. Take extra care.`;
+    }else{
+      const k=out.findIndex((x,i)=>i>iNow&&i<=iNow+24&&x.hz===2);
+      if(k>0)caution=`<b>Storm coming ${whenTxt(out[k].tm,now.tm)}</b>${out[k].why==="gust"?`Gusts up to ${r0(gNext)} km/h expected`:`DWD warning: ${alName(out[k].al)}`}. Be out of the forest before then.`;
+    }
+    $("#tstat").className="tstat st-"+now.st;
+    $("#tstat").innerHTML=`<span class="k">Trails around ${esc(S.loc.name)} · now</span><b>${TST[now.st][0]}</b><span style="opacity:.9">${TST[now.st][1]}</span><p>${txt}</p>`+
+      (caution?`<div class="tcaution"><span aria-hidden="true">⚠</span><span>${caution}</span></div>`:"");
+    slot.innerHTML=`<button class="trailbar st-${now.st}" id="trailJump"><span>Trails: ${TST[now.st][0]} <small>· ${now.hz===1?(now.why==="after"?"watch for fallen trees":"windy, take care"):caution?"storm coming":TST[now.st][1]}</small></span>${now.hz||caution?"⚠ ":""}›</button>`;
+  }
   $("#trailJump").onclick=()=>show("trail");
   // daily chips at 15:00: yesterday .. +6
   const days=[...new Set(out.map(x=>x.tm.slice(0,10)))], today=now.tm.slice(0,10), ti=days.indexOf(today);
   const sel=days.slice(Math.max(0,ti-1),ti+6);
   $("#tdays").innerHTML=`<div class="tdays">${sel.map(d=>{
     const o=out.find(x=>x.tm===d+"T15:00")||out.filter(x=>x.tm.startsWith(d)).pop();
-    const rain=out.filter(x=>x.tm.startsWith(d)).reduce((a,x)=>a+x.p,0);
-    return `<div class="td${d===today?" today":""}"><b>${dayLabel(d,today)}</b><div class="c st-${o.st}" title="${TST[o.st][0]}">${o.st==="perfect"?"WB":TST[o.st][0]}</div><span class="r">${rain>=0.1?rain.toFixed(1)+" mm":"–"}</span></div>`}).join("")}</div>
-   <div class="tleg">${Object.keys(TST).map(k=>`<span><i class="st-${k}"></i>${TST[k][0]}${k==="perfect"?" (WB)":""}</span>`).join("")}</div>`;
+    const dh=out.filter(x=>x.tm.startsWith(d)), ride=dh.filter(x=>{const h=+x.tm.slice(11,13);return h>=8&&h<=20});
+    const rain=dh.reduce((a,x)=>a+x.p,0), mg=Math.max(0,...ride.map(x=>x.gu||0));
+    const storm=ride.some(x=>x.hz===2), warn=!storm&&ride.some(x=>x.hz===1);
+    const cls=storm?"storm":o.st, lab=storm?"Storm":o.st==="perfect"?"WB":TST[o.st][0];
+    return `<div class="td${d===today?" today":""}"><b>${dayLabel(d,today)}</b><div class="c st-${cls}" title="${storm?"Don’t ride – storm":TST[o.st][0]}">${lab}${warn?" ⚠":""}</div><span class="r">${rain>=0.1?rain.toFixed(1)+" mm":"–"}</span><span class="gu${mg>=cfg.gust?" hi":""}">${mg>=CAUTION_GUST?"gust "+r0(mg):""}</span></div>`}).join("")}</div>
+   <div class="tleg">${Object.keys(TST).map(k=>`<span><i class="st-${k}"></i>${TST[k][0]}${k==="perfect"?" (WB)":""}</span>`).join("")}<span><i class="st-storm"></i>Storm – don’t ride</span><span>⚠ windy or after a storm</span></div>`;
   // chart
   const DW=40, n=out.length, w=Math.ceil(n/24)*DW, hx=i=>i/24*DW, H=170;
   const daily={}; out.forEach(x=>{const d=x.tm.slice(0,10);daily[d]=(daily[d]||0)+x.p});
@@ -617,6 +698,7 @@ function renderTrail(){
     if(v>=0.1)g+=`<rect x="${x+9}" y="${128-bh}" width="${DW-18}" height="${bh}" rx="3" fill="var(--rain)" opacity=".55"/><text class="t-rain" x="${x+DW/2}" y="${124-bh}" text-anchor="middle">${v<10?v.toFixed(1):Math.round(v)}</text>`;
     g+=`<text class="t-muted" x="${x+DW/2}" y="160" text-anchor="middle">${d===today?"Today":dateOf(d).getDate()+"."}</text>`;});
   let run=0; for(let i=1;i<=n;i++){if(i===n||out[i].st!==out[run].st){g+=`<rect x="${hx(run)}" y="132" width="${hx(i)-hx(run)}" height="8" class="st-${out[run].st}" style="fill:var(--t-${out[run].st})"/>`;run=i}}
+  run=-1; for(let i=0;i<=n;i++){const on=i<n&&out[i].hz===2;if(on&&run<0)run=i;if(!on&&run>=0){g+=`<rect x="${hx(run)}" y="6" width="${Math.max(2,hx(i)-hx(run))}" height="126" fill="var(--t-storm)" opacity=".14"/><rect x="${hx(run)}" y="132" width="${Math.max(2,hx(i)-hx(run))}" height="8" fill="var(--t-storm)"/>`;run=-1}}
   const wy=W=>28+(1-W/TR.cap)*70;
   g+=`<polyline points="${out.map((x,i)=>`${hx(i).toFixed(1)},${wy(x.W).toFixed(1)}`).join(" ")}" fill="none" stroke="var(--t-wet)" stroke-width="2"/>`;
   g+=`<line x1="0" x2="${w}" y1="${wy(TR.wetT)}" y2="${wy(TR.wetT)}" stroke="var(--t-wet)" stroke-dasharray="3 4" opacity=".6"/><text class="t-muted" x="4" y="${wy(TR.wetT)-4}">wet above this line</text>`;
@@ -630,14 +712,180 @@ function renderTrail(){
     ["Rain last 7 days",`${r7.toFixed(1)} mm`,nObs?"DWD station data":"model data"],
     ["Since last rain",j<0?">14 days":hoursTxt(iNow-j),j>=0?`${ev.toFixed(1)} mm then`:""],
     ["Drying today",eT!=null?`${eT.toFixed(1)} mm`:"–",`normal for month: ${ET0N[+today.slice(5,7)-1]} mm`],
-    ["Topsoil moisture",now.soil!=null?`${Math.round(now.soil*100)}%`:"–","model, top 1 cm (vol.)"]
+    ["Topsoil moisture",now.soil!=null?`${Math.round(now.soil*100)}%`:"–","model, top 1 cm (vol.)"],
+    ["Max gust next 24 h",`${r0(gNext)} <span style="font-size:13px;font-weight:500">km/h</span>`,gNext>=cfg.gust?"too windy to ride":gNext>=CAUTION_GUST?"windy – take care":"calm enough"],
+    ["Storm warnings",String((S.alerts||[]).filter(a=>alertLevel(a)).length),S.alertsOk?"active or upcoming (DWD)":"not available here"]
   ].map(([a,b,c])=>`<div class="tile"><small>${a}</small><b>${b}</b><span>${c}</span></div>`).join("");
   syncRule();
 }
 function scrollTrail(){const sc=$("#tchart");if(sc&&sc.clientWidth&&S.tNowX!=null)sc.scrollLeft=Math.max(0,S.tNowX-sc.clientWidth*0.6)}
-function syncRule(){const c=trailCfg();$("#dWarm").textContent=c.warm+" days";$("#dCold").textContent=c.cold+" days"}
+function syncRule(){const c=trailCfg();$("#dWarm").textContent=c.warm+" days";$("#dCold").textContent=c.cold+" days";$("#dGust").textContent=c.gust+" km/h"}
 document.querySelectorAll(".step button").forEach(b=>b.onclick=()=>{
-  const c=trailCfg();c[b.dataset.k]=Math.min(10,Math.max(0.5,c[b.dataset.k]+ +b.dataset.d));LS.set("trailCfg",c);renderTrail()});
+  const c=trailCfg(),k=b.dataset.k,lim=k==="gust"?[40,90]:[0.5,10];c[k]=Math.min(lim[1],Math.max(lim[0],c[k]+ +b.dataset.d));LS.set("trailCfg",c);renderTrail()});
+
+/* ---------- learn drying times from rides ---------- */
+function parseCSV(t){
+  t=t.replace(/^﻿/,""); const first=t.split(/\r?\n/)[0]||"";
+  const dl=[";","\t",","].map(c=>[c,first.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
+  const rows=[];let row=[],f="",q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true; else if(c===dl){row.push(f);f=""}
+    else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;row.push(f);rows.push(row);row=[];f=""}
+    else f+=c}
+  if(f||row.length){row.push(f);rows.push(row)}
+  return rows.filter(r=>r.some(x=>x.trim()));
+}
+const MON={jan:1,feb:2,mar:3,"mär":3,apr:4,may:5,mai:5,jun:6,jul:7,aug:8,sep:9,oct:10,okt:10,nov:11,dec:12,dez:12};
+const BERLIN=new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",hourCycle:"h23"});
+const p2=n=>String(n).padStart(2,"0");
+function parseRideDate(s,timeStr,utc){
+  s=(s||"").trim(); let y,m,d,h=null,mi=0,x;
+  if(x=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?/)){y=+x[1];m=+x[2];d=+x[3];if(x[4]!=null)h=+x[4]}
+  else if(x=s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{2,4})(?:,?\s+(\d{1,2}):(\d{2}))?/)){d=+x[1];m=+x[2];y=+x[3];if(y<100)y+=2000;if(x[4]!=null)h=+x[4]}
+  else if(x=s.match(/^([A-Za-zä]{3})[A-Za-zä]*\.?\s+(\d{1,2}),?\s+(\d{4})(?:,?\s+(\d{1,2}):(\d{2})(?::\d{2})?\s*([AaPp][Mm])?)?/)){
+    m=MON[x[1].toLowerCase()];d=+x[2];y=+x[3];
+    if(x[4]!=null){h=+x[4];if(x[6]){h=h%12+(/p/i.test(x[6])?12:0)}}}
+  else if(x=s.match(/^(\d{1,2})\.?\s+([A-Za-zä]{3})[A-Za-zä]*\.?\s+(\d{4})/)){d=+x[1];m=MON[x[2].toLowerCase()];y=+x[3]}
+  if(!y||!m||!d||m>12||d>31)return null;
+  if(h==null&&timeStr){const t=timeStr.match(/(\d{1,2}):(\d{2})/);if(t)h=+t[1]}
+  if(h==null)return `${y}-${p2(m)}-${p2(d)}T14:00`; // no time given: assume afternoon
+  if(utc){const z=BERLIN.format(new Date(Date.UTC(y,m-1,d,h,mi)));return z.slice(0,10)+"T"+z.slice(11,13)+":00"}
+  return `${y}-${p2(m)}-${p2(d)}T${p2(h)}:00`;
+}
+const num=v=>{const n=parseFloat(String(v).replace(",","."));return isNaN(n)?null:n};
+async function readRides(text){
+  const rows=parseCSV(text); if(!rows.length)throw new Error("The file is empty.");
+  const H=rows[0].map(h=>h.trim().toLowerCase());
+  const col=re=>H.findIndex(h=>re.test(h));
+  let cD=col(/^activity date$|^date$|^datum$|^day$|^tag$|^start(_|\s)?(date|time)|^date|datum/),
+      cT=col(/^time$|^uhrzeit$|^zeit$|^start time$/),
+      cLa=col(/^lat|breite/), cLo=col(/^lon|^lng|länge|laenge/),
+      cP=col(/^location$|^ort$|^place$|^city$|^stadt$|^location|^ort|^place/),
+      cTy=col(/^activity type$|^type$|^typ$|sportart/);
+  let body=rows.slice(1), utc=H[cD]==="activity date";
+  if(cD<0){ // no header row
+    body=rows; cD=0; cT=-1; cTy=-1;
+    const r=rows[0]; if(r.length>=3&&num(r[1])!=null&&num(r[2])!=null){cLa=1;cLo=2;cP=-1}else{cP=r.length>1?1:-1;cLa=cLo=-1}
+  }
+  if(cTy>=0){
+    const mtb=/mountain|mtb|enduro|downhill|e-mtb/i, ride=/ride|rad|bike|fahrrad/i;
+    const hasMtb=body.some(r=>mtb.test(r[cTy]||""));
+    body=body.filter(r=>{const t=r[cTy]||"";return /virtual/i.test(t)?false:hasMtb?mtb.test(t):ride.test(t)});
+  }
+  const geo={}, rides=[]; let skipped=0, noPlace=0;
+  for(const r of body){
+    const tm=parseRideDate(r[cD],cT>=0?r[cT]:null,utc); if(!tm){skipped++;continue}
+    let lat=cLa>=0?num(r[cLa]):null, lon=cLo>=0?num(r[cLo]):null;
+    if((lat==null||lon==null)&&cP>=0&&(r[cP]||"").trim()){
+      const name=r[cP].trim();
+      if(!(name in geo)){
+        try{const j=await getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name.split(",")[0])}&count=5&language=de&format=json`);
+          const res=(j.results||[]); const g=res.find(x=>x.country_code==="DE")||res[0]; geo[name]=g?[g.latitude,g.longitude]:null}catch(e){geo[name]=null}
+      }
+      if(geo[name])[lat,lon]=geo[name];
+    }
+    if(lat==null||lon==null){lat=S.loc.lat;lon=S.loc.lon;noPlace++}
+    rides.push({tm,lat,lon});
+  }
+  const seen=new Set(); const uniq=rides.filter(r=>{const k=r.tm.slice(0,10)+r.lat.toFixed(2)+r.lon.toFixed(2);if(seen.has(k))return false;seen.add(k);return true});
+  return {rides:uniq.sort((a,b)=>a.tm<b.tm?-1:1),skipped,noPlace,unknownPlaces:Object.keys(geo).filter(k=>!geo[k])};
+}
+async function fetchHist(lat,lon,start,end){
+  const q=`latitude=${lat}&longitude=${lon}&start_date=${start}&end_date=${end}&hourly=precipitation,wind_gusts_10m&daily=et0_fao_evapotranspiration&timezone=Europe%2FBerlin`;
+  if(start>="2022-06-01"){
+    try{const j=await getJSON("https://historical-forecast-api.open-meteo.com/v1/forecast?"+q);
+      const pr=j.hourly.precipitation,nulls=pr.filter(v=>v==null).length; if(nulls<pr.length*0.05){j.src="DWD ICON (historical forecasts)";return j}}catch(e){}
+  }
+  const j=await getJSON("https://archive-api.open-meteo.com/v1/archive?"+q); j.src="ERA5 reanalysis"; return j;
+}
+function simWet(T,P,et0,cfg){
+  const out=new Float32Array(T.length); let w=TR.cap/2;
+  for(let i=0;i<T.length;i++){
+    const m=+T[i].slice(5,7)-1, days=warmM(m)?cfg.warm:cfg.cold, e=et0[T[i].slice(0,10)]??ET0N[m], f=Math.min(1.4,Math.max(.6,e/ET0N[m])), p=P[i]||0;
+    w=Math.min(TR.cap,w+p); if(p<0.1)w=Math.max(0,w-TR.cap/(days*24)*f); out[i]=w;
+  }
+  return out;
+}
+const pct=(a,q)=>{if(!a.length)return null;const s=[...a].sort((x,y)=>x-y);return s[Math.min(s.length-1,Math.floor(q*(s.length-1)+.5))]};
+const TOL=0.04; // extra rides rated Wet allowed above the baseline (rides that look wet whatever the rule: data noise, sheltered trails)
+const CAND={warm:[0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.5,4,4.5,5],cold:[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,8,9,10]};
+async function calibrate(file){
+  const msg=t=>$("#calMsg").textContent=t;
+  msg("Reading file…"); $("#calOut").innerHTML="";
+  const R=await readRides(await file.text());
+  const yday=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  const rides=R.rides.filter(r=>r.tm.slice(0,10)<=yday);
+  if(rides.length<5)throw new Error(`Only ${rides.length} rides could be read. The file needs a date column, and a place or latitude/longitude column if you rode in different places.`);
+  // group rides by place (about 10 km grid)
+  const groups={}; rides.forEach(r=>{const k=(Math.round(r.lat*10)/10).toFixed(1)+","+(Math.round(r.lon*10)/10).toFixed(1);(groups[k]=groups[k]||[]).push(r)});
+  let keys=Object.keys(groups).sort((a,b)=>groups[b].length-groups[a].length); const dropped=keys.slice(12).reduce((a,k)=>a+groups[k].length,0); keys=keys.slice(0,12);
+  const cfg=trailCfg(), res={warm:{},cold:{}}, nR={warm:0,cold:0}, fast={warm:[],cold:[]}, gusts=[]; let src=new Set(), first=null, last=null;
+  for(const s of ["warm","cold"])CAND[s].concat([cfg[s]]).forEach(v=>res[s][v]=0);
+  for(let gi=0;gi<keys.length;gi++){
+    const G=groups[keys[gi]], [la,lo]=keys[gi].split(",").map(Number);
+    msg(`Loading rain history ${gi+1} of ${keys.length}…`);
+    const start=new Date(Date.parse(G[0].tm.slice(0,10))-21*864e5).toISOString().slice(0,10), end=G[G.length-1].tm.slice(0,10);
+    const h=await fetchHist(la,lo,start,end); src.add(h.src);
+    const T=h.hourly.time, P=h.hourly.precipitation, Gu=h.hourly.wind_gusts_10m||[], idx={}, et0={};
+    T.forEach((t,i)=>idx[t]=i); h.daily.time.forEach((d,i)=>et0[d]=h.daily.et0_fao_evapotranspiration[i]);
+    // rain events (separated by 6 dry hours)
+    const ev=[]; let sum=0,endI=-1,gap=99;
+    for(let i=0;i<T.length;i++){const p=P[i]||0;if(p>=0.1){if(gap>=6)sum=0;sum+=p;endI=i;gap=0}else{gap++;if(gap===6&&sum>0)ev.push([endI,sum])}}
+    const ri=G.map(r=>idx[r.tm]).map((v,k)=>v==null?idx[G[k].tm.slice(0,10)+"T14:00"]:v);
+    G.forEach((r,k)=>{const i=ri[k];if(i==null)return;const s=warmM(+r.tm.slice(5,7)-1)?"warm":"cold";nR[s]++;
+      first=first&&first<r.tm?first:r.tm; last=last&&last>r.tm?last:r.tm;
+      for(let e=ev.length-1;e>=0;e--){if(ev[e][0]>=i)continue;if(i-ev[e][0]>240)break;if(ev[e][1]>=8){fast[s].push((i-ev[e][0])/24);break}}
+      gusts.push(Math.max(...[0,1,2].map(o=>Gu[i+o]||0)));
+    });
+    for(const s of ["warm","cold"]){
+      for(const v of Object.keys(res[s])){
+        const c=Object.assign({},cfg,{[s]:+v}), Wt=simWet(T,P,et0,c);
+        G.forEach((r,k)=>{const i=ri[k];if(i!=null&&(warmM(+r.tm.slice(5,7)-1)?"warm":"cold")===s&&Wt[i]>TR.wetT)res[s][v]++});
+      }
+    }
+  }
+  msg("");
+  const out={n:rides.length,places:keys.length,dropped,first,last,src:[...src].join(", "),skipped:R.skipped,noPlace:R.noPlace,unknown:R.unknownPlaces,season:{},gust:{p95:pct(gusts,.95),max:gusts.length?Math.max(...gusts):null},at:Date.now()};
+  for(const s of ["warm","cold"]){
+    const n=nR[s], cur=res[s][cfg[s]]||0; let sug=null;
+    if(n>=8){const base=res[s][CAND[s][0]],ok=CAND[s].filter(v=>(res[s][v]-base)/n<=TOL);sug=ok.length?Math.max(...ok):CAND[s][0]}
+    out.curve=out.curve||{}; out.curve[s]=CAND[s].map(v=>[v,res[s][v]]);
+    out.season[s]={n,cur:cfg[s],curWet:cur,sug,sugWet:sug!=null?res[s][sug]:null,fast10:pct(fast[s],.1),fastMed:pct(fast[s],.5),nFast:fast[s].length};
+  }
+  LS.set("calib",out); renderCalib();
+}
+function renderCalib(){
+  const o=LS.get("calib",null), el=$("#calOut"); if(!o){el.innerHTML="";return}
+  const cfg=trailCfg(), d=v=>v==null?"–":(Math.round(v*10)/10).toString().replace(/\.5$/,"½").replace(/^0½$/,"½")+" days";
+  const W=o.season.warm,C=o.season.cold, cell=(x,f)=>`<td>${f(x)}</td>`;
+  const row=(lab,f,cls="")=>`<tr class="${cls}"><td>${lab}</td>${cell(W,f)}${cell(C,f)}</tr>`;
+  const fm=x=>{const a=new Date(x.slice(0,10));return a.toLocaleDateString("en-GB",{month:"short",year:"numeric"})};
+  el.innerHTML=`<p class="lead" style="margin:14px 0 0">${o.n} rides at ${o.places} place${o.places>1?"s":""} · ${fm(o.first)} – ${fm(o.last)}</p>
+  <div class="calwrap"><table class="caltab"><thead><tr><th></th><th>Spring / summer</th><th>Fall / winter</th></tr></thead><tbody>
+   ${row("Rides",x=>x.n)}
+   ${row("Quickest rides after ≥ 8 mm rain",x=>x.nFast?d(x.fast10):"–")}
+   ${row("Typical wait after ≥ 8 mm rain",x=>x.nFast?d(x.fastMed):"–")}
+   ${row("Rides rated Wet with your current rule",x=>`${x.curWet} of ${x.n}`)}
+   ${row("Drying time that fits your rides",x=>x.sug==null?"too few rides":d(x.sug),"sug")}
+   ${row("Your current setting",x=>d(cfg[x===W?"warm":"cold"]))}
+  </tbody></table></div>
+  <div class="calnote">The fitting drying time is the longest one that still rates almost all your rides as rideable. A longer time would call trails wet on days you actually rode.
+   ${o.gust.max!=null?`<br>Wind during your rides: 95 % of rides had gusts below <b>${r0(o.gust.p95)} km/h</b> (highest ${r0(o.gust.max)} km/h). Your storm limit is ${cfg.gust} km/h and is not changed automatically.`:""}
+   ${o.noPlace?`<br>${o.noPlace} rides had no place and were counted for ${esc(S.loc.name)}.`:""}
+   ${o.unknown&&o.unknown.length?`<br>Places not found: ${esc(o.unknown.slice(0,5).join(", "))}${o.unknown.length>5?"…":""}.`:""}
+   ${o.skipped?`<br>${o.skipped} rows were skipped because the date could not be read.`:""}
+   ${o.dropped?`<br>${o.dropped} rides at rarely visited places were left out.`:""}
+   <br>Rain history: ${esc(o.src)} via Open-Meteo.</div>
+  ${(W.sug!=null||C.sug!=null)&&(W.sug!==cfg.warm||C.sug!==cfg.cold)?`<div style="margin-top:12px"><button class="btn primary" id="calApply">Use these drying times</button></div>`:`<p class="calnote"><b>Your trail rules already match your rides.</b></p>`}`;
+  const b=$("#calApply"); if(b)b.onclick=()=>{const c=trailCfg();if(W.sug!=null)c.warm=W.sug;if(C.sug!=null)c.cold=C.sug;LS.set("trailCfg",c);renderTrail();renderCalib();status("Drying times updated")};
+}
+syncRule();
+$("#calFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;
+  try{await calibrate(f)}catch(err){$("#calMsg").textContent="";$("#calOut").innerHTML=`<p class="calnote" style="color:var(--bad)">${esc(err.message||"The analysis failed. Check your connection and try again.")}</p>`}
+  e.target.value=""};
+document.querySelector('label[for="calFile"]').onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("#calFile").click()}};
+renderCalib();
 
 /* ---------- radar ---------- */
 const radar={map:null,marker:null,frames:[],layers:[],idx:0,timer:null,dwd:null,mode:"rv",
