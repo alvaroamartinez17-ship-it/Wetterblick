@@ -29,6 +29,6 @@ No API keys, no account, no tracking. Favourites and the last forecast stay on t
 Standard values come from 179 home-trail rides (Kappelberg, Korb, Schorndorf; March 2024 – September 2026) checked against hourly DWD ICON rain:
 spring/summer (April–September) 1.75 days, fall/winter (October–March) 4.5 days after a heavy rain (12 mm or more), scaled by the day's actual evaporation.
 
-## Trail states and ride ratings
-Trails show four states: Wet · Werksboden · Normal · Dry (plus storm warnings).
+## Trail scale and ride ratings
+Trails use your 1–5 scale: 1 Wet · 2 Wet firm · 3 Werksboden · 4 Dry · 5 Dry loose.
 After a ride, rate the trails in Trails → Rate your ride. Ratings stay on the phone; "Copy ratings for Claude" copies them (with what the app predicted and the rain/wind behind it) to paste into the chat for tuning.

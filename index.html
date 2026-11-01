@@ -171,7 +171,7 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
   background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;max-width:90vw}
 
 /* trails */
-:root{--t-wet:#7a4b2c;--t-perfect:#1f8f4e;--t-normal:#3d7fa6;--t-dry:#c9952f;--t-storm:#b3192b;--t-caution:#e8a10c}
+:root{--t-wet:#6b3f22;--t-firm:#9a7438;--t-perfect:#1f8f4e;--t-dry:#3d7fa6;--t-loose:#d9b25c;--t-storm:#b3192b;--t-caution:#e8a10c}
 .st-storm{background:var(--t-storm);color:#fff}
 .tcaution{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:11px 13px;background:var(--t-caution);color:#2b1d00;font-size:14px;line-height:1.4}
 .tcaution b{display:block}
@@ -181,18 +181,18 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
 .tstat .k{font:600 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
 .tstat b{font:700 34px/1.05 var(--f-display)}
 .tstat p{margin:0;font-size:14.5px;line-height:1.45;max-width:60ch}
-.st-wet{background:var(--t-wet)} .st-perfect{background:var(--t-perfect)} .st-normal{background:var(--t-normal)} .st-dry{background:var(--t-dry);color:#2b1d00}
+.st-wet{background:var(--t-wet)} .st-firm{background:var(--t-firm)} .st-perfect{background:var(--t-perfect)} .st-dry{background:var(--t-dry)} .st-loose{background:var(--t-loose);color:#2b1d00}
 .tdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
 .td{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;min-width:0}
 .td .c{width:100%;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:600;font-size:11px}
-.td .c.st-dry{color:#2b1d00}
+.td .c.st-loose{color:#2b1d00}
 .td .r{color:var(--rain);font-weight:600;font-size:11.5px}
 .td.today b{color:var(--accent)}
 .tleg{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:12px;color:var(--muted)}
 .tleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .trailbar{display:flex;gap:10px;align-items:center;width:100%;border:0;border-radius:14px;padding:11px 13px;color:#fff;text-align:left;font-weight:600}
 .trailbar span{flex:1;min-width:0}.trailbar small{font-weight:500;opacity:.9}
-.trailbar.st-dry{color:#2b1d00}
+.trailbar.st-loose{color:#2b1d00}
 .trule{display:grid;grid-template-columns:1fr auto;gap:10px 12px;align-items:center}
 .step{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .step button{width:40px;height:38px;border:0;background:var(--bg);font-size:18px;font-weight:600}
@@ -231,16 +231,16 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
 .rform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .rform label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);min-width:0}
 .rform input,.rform select,#rNote,#rText{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;width:100%}
-.rbtns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.rbtns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .rbtns button{border:0;border-radius:12px;padding:8px 2px 9px;color:#fff;font-size:11.5px;font-weight:600;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:62px;justify-content:center}
-.rbtns button b{font:700 15px/1.1 var(--f-display)}
-.rbtns button.st-dry{color:#2b1d00}
+.rbtns button b{font:700 22px/1 var(--f-display)}
+.rbtns button.st-loose{color:#2b1d00}
 .rbtns button:active{transform:scale(.96)}
 #rNote{margin-top:10px}
 #rList{margin-top:12px;display:flex;flex-direction:column}
 .rrow2{display:grid;grid-template-columns:auto 1fr auto auto;gap:4px 10px;align-items:center;border-top:1px solid var(--line);padding:8px 0;font-size:13.5px}
-.rrow2 .lv{min-width:52px;height:28px;padding:0 6px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px}
-.rrow2 .lv.st-dry{color:#2b1d00}
+.rrow2 .lv{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700}
+.rrow2 .lv.st-loose{color:#2b1d00}
 .rrow2 small{color:var(--muted);display:block}
 .rrow2 .del{border:0;background:none;color:var(--muted);font-size:18px;padding:4px 6px}
 .rrow2 .del.armed{color:var(--bad);font-size:12px;font-weight:700}
@@ -355,7 +355,7 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
         <label>Where <select id="rSpot"><option>Kappelberg</option><option>Korb</option><option>Schorndorf</option><option>Other</option></select></label>
       </div>
       <div class="rbtns" role="group" aria-label="Trail condition">
-        <button data-r="1" class="st-wet"><b>Wet</b>slippery</button><button data-r="2" class="st-perfect"><b>Werks&shy;boden</b>perfect grip</button><button data-r="3" class="st-normal"><b>Normal</b>firm, grippy</button><button data-r="4" class="st-dry"><b>Dry</b>dusty, loose</button>
+        <button data-r="1" class="st-wet"><b>1</b>Wet</button><button data-r="2" class="st-firm"><b>2</b>Wet firm</button><button data-r="3" class="st-perfect"><b>3</b>Werks&shy;boden</button><button data-r="4" class="st-dry"><b>4</b>Dry</button><button data-r="5" class="st-loose"><b>5</b>Dry loose</button>
       </div>
       <input type="text" id="rNote" placeholder="Note (optional), e.g. north side muddy" maxlength="120">
       <div id="rList"></div>
@@ -387,7 +387,7 @@ nav.tabs .dot::after{content:"";position:absolute;top:-2px;right:-4px;width:8px;
       </div>
       <div id="calOut"></div>
     </div>
-    <p class="foot">How it works: every hour of rain fills a “trail wetness” store (full after about 12 mm). It empties at the speed of your drying rule, adjusted by how much the sun and wind actually evaporate that day compared with the seasonal normal (FAO evapotranspiration). Wet = store above 2 mm. Werksboden = the first days after drying out (up to 3 days in April–September, 5 in October–March) while less than 10 mm has evaporated. Normal = after that. Dry = after about 25 mm of evaporation without rain. Storm safety: “Don’t ride” when gusts reach your limit (default 60 km/h, Beaufort 7–8) or the DWD has a storm, thunderstorm or snow-break warning for this place. Gusts from 45 km/h and the 24 hours after a storm (48 hours after gusts of 75 km/h or a severe warning) are marked with ⚠ because of falling branches and fallen trees. Past rain: DWD station measurements via Bright Sky, gaps filled from the DWD ICON analysis. Future: DWD ICON forecast via Open-Meteo.</p>
+    <p class="foot">How it works: every hour of rain fills a “trail wetness” store (full after about 12 mm). It empties at the speed of your drying rule, adjusted by how much the sun and wind actually evaporate that day compared with the seasonal normal (FAO evapotranspiration). Your scale: 1 Wet = store above 4 mm. 2 Wet firm = 2–4 mm. 3 Werksboden = the first days after the store drops below 2 mm (up to 3 days in April–September, 5 in October–March) while less than 10 mm has evaporated. 4 Dry = after that. 5 Dry loose = after about 25 mm of evaporation without rain. Storm safety: “Don’t ride” when gusts reach your limit (default 60 km/h, Beaufort 7–8) or the DWD has a storm, thunderstorm or snow-break warning for this place. Gusts from 45 km/h and the 24 hours after a storm (48 hours after gusts of 75 km/h or a severe warning) are marked with ⚠ because of falling branches and fallen trees. Past rain: DWD station measurements via Bright Sky, gaps filled from the DWD ICON analysis. Future: DWD ICON forecast via Open-Meteo.</p>
   </section>
 
   <!-- POLLEN & AIR -->
@@ -652,10 +652,11 @@ function renderAir(){
 }
 
 /* ---------- trails (MTB grip) ---------- */
-const TR={cap:12,wetT:2,dryEt0:25,perfectEt0:10};
+const TR={cap:12,wetT:2,wetHard:4,dryEt0:25,perfectEt0:10};
 const ET0N=[0.6,0.9,1.7,2.9,3.5,4.4,4.3,4.0,2.4,1.3,0.7,0.5]; // normal evaporation, mm/day, Kappelberg/Korb/Schorndorf 2024–2026 (DWD ICON)
-const TST={wet:["Wet","slippery",1,"Wet"],perfect:["Werksboden","perfect grip",2,"WB"],normal:["Normal","firm, good grip",3,"Normal"],dry:["Dry","dusty, loose",4,"Dry"]};
-const LV=["","wet","perfect","normal","dry"]; // rating numbers, wettest first
+// Your 1–5 scale
+const TST={wet:["Wet","slippery",1,"Wet"],firm:["Wet firm","firm, but damp and greasy on top",2,"Firm"],perfect:["Werksboden","perfect grip",3,"WB"],dry:["Dry","dry and firm",4,"Dry"],loose:["Dry loose","dusty, loose",5,"Loose"]};
+const LV=["","wet","firm","perfect","dry","loose"];
 // Defaults fitted to 179 home-trail rides (Kappelberg, Korb, Schorndorf, Mar 2024 – Sep 2026) against hourly DWD ICON rain
 const TRAIL_DEFAULT={warm:1.75,cold:4.5,gust:60};
 (function(){try{if(LS.get("trailCfgV",0)<2){const c=LS.get("trailCfg",null);
@@ -686,7 +687,7 @@ function trailModel(){
     W=Math.min(TR.cap,W+p);
     if(p<0.1)W=Math.max(0,W-TR.cap/(days*24)*f);
     if(W>TR.wetT){dryH=0;eSince=0}else{dryH++;eSince+=e/24}
-    const st=W>TR.wetT?"wet":eSince>=TR.dryEt0?"dry":(dryH<=(warm?72:120)&&eSince<TR.perfectEt0)?"perfect":"normal";
+    const st=W>TR.wetHard?"wet":W>TR.wetT?"firm":eSince>=TR.dryEt0?"loose":(dryH<=(warm?72:120)&&eSince<TR.perfectEt0)?"perfect":"dry";
     const gm=H.wind_gusts_10m?H.wind_gusts_10m[i]:null, gu=(past&&obsG[tm]!=null)?Math.max(obsG[tm],0):gm;
     out.push({tm,p,W,st,dryH,eSince,warm,days,gu,temp:H.temperature_2m[i],soil:H.soil_moisture_0_to_1cm?H.soil_moisture_0_to_1cm[i]:null,past});
   });
@@ -725,13 +726,16 @@ function renderTrail(){
   let nx=null; for(let k=iNow+1;k<out.length;k++){if(out[k].st!==now.st){nx=out[k];break}}
   const season=now.warm?"spring/summer":"fall/winter";
   let txt;
-  if(now.st==="wet"){
-    const k=out.findIndex((x,i)=>i>iNow&&x.st!=="wet");
-    txt=`Slippery: ${lastTxt}. In ${season} the trails here need up to ${String(now.days).replace(".75","¾").replace(".5","½").replace(".25","¼")} dry days after heavy rain. `+
-      (k>0?`Grip should return ${whenTxt(out[k].tm,now.tm)}${out[k].st==="perfect"?" as Werksboden":""}.`:`No drying window in the next 7 days.`);
+  const good=x=>x.st!=="wet"&&x.st!=="firm";
+  if(now.st==="wet"||now.st==="firm"){
+    const k1=now.st==="wet"?out.findIndex((x,i)=>i>iNow&&x.st!=="wet"):-1, k2=out.findIndex((x,i)=>i>iNow&&good(x));
+    txt=(now.st==="wet"?`Slippery: ${lastTxt}. `:`Firm underneath, but still damp and greasy on top – roots and rocks are slippery. ${lastTxt[0].toUpperCase()+lastTxt.slice(1)}. `)+
+      `In ${season} the trails here need up to ${String(now.days).replace(".75","¾").replace(".5","½").replace(".25","¼")} dry days after heavy rain. `+
+      (k1>0&&(k2<0||k1<k2)?`Firm again ${whenTxt(out[k1].tm,now.tm)}. `:"")+
+      (k2>0?`Grip should return ${whenTxt(out[k2].tm,now.tm)}${out[k2].st==="perfect"?" as Werksboden":""}.`:`No drying window in the next 7 days.`);
   }else if(now.st==="perfect"){
     txt=`Tacky soil with the best grip – ${lastTxt}, dried out ${hoursTxt(now.dryH)} ago. `+(nx?`${nx.st==="wet"?"Rain makes it wet again":"Turns "+TST[nx.st][0].toLowerCase()} ${whenTxt(nx.tm,now.tm)}.`:"Stays like this for the next days.");
-  }else if(now.st==="normal"){
+  }else if(now.st==="dry"){
     txt=`Firm and grippy, ${lastTxt}. `+(nx?`${nx.st==="wet"?"Wet again":TST[nx.st][0]} from ${whenTxt(nx.tm,now.tm)}.`:"");
   }else{
     txt=`Dusty and loose after a long dry spell (${lastTxt}). Expect drifting in corners and longer braking. `+(nx?`${nx.st==="wet"?"Rain":"Change"} expected ${whenTxt(nx.tm,now.tm)}.`:"");
@@ -759,9 +763,9 @@ function renderTrail(){
       if(k>0)caution=`<b>Storm coming ${whenTxt(out[k].tm,now.tm)}</b>${out[k].why==="gust"?`Gusts up to ${r0(gNext)} km/h expected`:`DWD warning: ${alName(out[k].al)}`}. Be out of the forest before then.`;
     }
     $("#tstat").className="tstat st-"+now.st;
-    $("#tstat").innerHTML=`<span class="k">Trails around ${esc(S.loc.name)} · now</span><b>${TST[now.st][0]}</b><span style="opacity:.9">${TST[now.st][1]}</span><p>${txt}</p>`+
+    $("#tstat").innerHTML=`<span class="k">Trails around ${esc(S.loc.name)} · now</span><b>${TST[now.st][2]} · ${TST[now.st][0]}</b><span style="opacity:.9">${TST[now.st][1]}</span><p>${txt}</p>`+
       (caution?`<div class="tcaution"><span aria-hidden="true">⚠</span><span>${caution}</span></div>`:"");
-    slot.innerHTML=`<button class="trailbar st-${now.st}" id="trailJump"><span>Trails: ${TST[now.st][0]} <small>· ${now.hz===1?(now.why==="after"?"watch for fallen trees":"windy, take care"):caution?"storm coming":TST[now.st][1]}</small></span>${now.hz||caution?"⚠ ":""}›</button>`;
+    slot.innerHTML=`<button class="trailbar st-${now.st}" id="trailJump"><span>Trails: ${TST[now.st][2]} ${TST[now.st][0]} <small>· ${now.hz===1?(now.why==="after"?"watch for fallen trees":"windy, take care"):caution?"storm coming":TST[now.st][1]}</small></span>${now.hz||caution?"⚠ ":""}›</button>`;
   }
   $("#trailJump").onclick=()=>show("trail");
   // daily chips at 15:00: yesterday .. +6
@@ -774,7 +778,7 @@ function renderTrail(){
     const storm=ride.some(x=>x.hz===2), warn=!storm&&ride.some(x=>x.hz===1);
     const cls=storm?"storm":o.st, lab=storm?"Storm":TST[o.st][3];
     return `<div class="td${d===today?" today":""}"><b>${dayLabel(d,today)}</b><div class="c st-${cls}" title="${storm?"Don’t ride – storm":TST[o.st][0]}">${lab}${warn?" ⚠":""}</div><span class="r">${rain>=0.1?rain.toFixed(1)+" mm":"–"}</span><span class="gu${mg>=cfg.gust?" hi":""}">${mg>=CAUTION_GUST?"gust "+r0(mg):""}</span></div>`}).join("")}</div>
-   <div class="tleg">${Object.keys(TST).map(k=>`<span><i class="st-${k}"></i>${TST[k][0]}${k==="perfect"?" (WB)":""}</span>`).join("")}<span><i class="st-storm"></i>Storm – don’t ride</span><span>⚠ windy or after a storm</span></div>`;
+   <div class="tleg">${Object.keys(TST).map(k=>`<span><i class="st-${k}"></i>${TST[k][2]} ${TST[k][0]}${k==="perfect"?" (WB)":""}</span>`).join("")}<span><i class="st-storm"></i>Storm – don’t ride</span><span>⚠ windy or after a storm</span></div>`;
   // chart
   const DW=40, n=out.length, w=Math.ceil(n/24)*DW, hx=i=>i/24*DW, H=170;
   const daily={}; out.forEach(x=>{const d=x.tm.slice(0,10);daily[d]=(daily[d]||0)+x.p});
@@ -788,7 +792,7 @@ function renderTrail(){
   run=-1; for(let i=0;i<=n;i++){const on=i<n&&out[i].hz===2;if(on&&run<0)run=i;if(!on&&run>=0){g+=`<rect x="${hx(run)}" y="6" width="${Math.max(2,hx(i)-hx(run))}" height="126" fill="var(--t-storm)" opacity=".14"/><rect x="${hx(run)}" y="132" width="${Math.max(2,hx(i)-hx(run))}" height="8" fill="var(--t-storm)"/>`;run=-1}}
   const wy=W=>28+(1-W/TR.cap)*70;
   g+=`<polyline points="${out.map((x,i)=>`${hx(i).toFixed(1)},${wy(x.W).toFixed(1)}`).join(" ")}" fill="none" stroke="var(--t-wet)" stroke-width="2"/>`;
-  [[TR.wetT,"wet above this line"]].forEach(([v,t])=>g+=`<line x1="0" x2="${w}" y1="${wy(v)}" y2="${wy(v)}" stroke="var(--t-wet)" stroke-dasharray="3 4" opacity=".6"/><text class="t-muted" x="4" y="${wy(v)-4}">${t}</text>`);
+  [[TR.wetHard,"1 wet above"],[TR.wetT,"2 wet firm above"]].forEach(([v,t])=>g+=`<line x1="0" x2="${w}" y1="${wy(v)}" y2="${wy(v)}" stroke="var(--t-wet)" stroke-dasharray="3 4" opacity=".6"/><text class="t-muted" x="4" y="${wy(v)-4}">${t}</text>`);
   g+=`<line x1="${hx(iNow)}" x2="${hx(iNow)}" y1="6" y2="142" stroke="var(--accent)" stroke-width="2"/><text x="${hx(iNow)+4}" y="16" style="fill:var(--accent);font-weight:600">now</text>`;
   $("#tchart").innerHTML=g+"</svg>";
   S.tNowX=hx(iNow); scrollTrail();
@@ -977,8 +981,7 @@ renderCalib();
 /* ---------- ride ratings (your 1–5 scale) ---------- */
 const SPOTS={Kappelberg:[48.806,9.288],Korb:[48.842,9.361],Schorndorf:[48.805,9.527]};
 const distKm=(a,b,c,d)=>Math.hypot((a-c)*111,(b-d)*111*Math.cos(a*Math.PI/180));
-const OLD5={1:1,2:1,3:2,4:3,5:4}; // earlier 1–5 scale → Wet / Werksboden / Normal / Dry
-const getRatings=()=>LS.get("ratings",[]).map(x=>x.scale===4?x:Object.assign({},x,{r5:x.r,r:OLD5[x.r]||x.r,scale:4,model:x.model&&x.model.lvl5==null?Object.assign({},x.model,{lvl5:x.model.lvl,lvl:OLD5[x.model.lvl]||x.model.lvl}):x.model}));
+const getRatings=()=>LS.get("ratings",[]);
 const localISO=d=>`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`;
 function initRateForm(){
   const now=new Date(); $("#rWhen").value=localISO(now); $("#rWhen").max=localISO(now);
@@ -992,16 +995,16 @@ function modelAt(tmLocal){ // what the app's model said at that hour (for the pl
 }
 function saveRating(r){
   const when=$("#rWhen").value||localISO(new Date()), spot=$("#rSpot").value, note=$("#rNote").value.trim();
-  const list=getRatings(); list.push({id:Date.now(),when,spot,r,note,scale:4,model:modelAt(when)}); list.sort((a,b)=>a.when<b.when?-1:1);
+  const list=getRatings(); list.push({id:Date.now(),when,spot,r,note,model:modelAt(when)}); list.sort((a,b)=>a.when<b.when?-1:1);
   LS.set("ratings",list); LS.set("rSpot",spot); $("#rNote").value="";
-  status(`Saved: ${TST[LV[r]][0]} · ${spot}`); renderRatings();
+  status(`Saved: ${r} ${TST[LV[r]][0]} · ${spot}`); renderRatings();
 }
 function renderRatings(){
   const list=getRatings(), el=$("#rList");
   if(!list.length){el.innerHTML=`<p class="rsum">No ratings yet. After each ride, tap how the trails were.</p>`;return}
   const withM=list.filter(x=>x.model), exact=withM.filter(x=>x.model.lvl===x.r).length, near=withM.filter(x=>Math.abs(x.model.lvl-x.r)===1).length;
-  const rows=[...list].reverse().slice(0,8).map(x=>{const d=new Date(x.when);return `<div class="rrow2"><span class="lv st-${LV[x.r]}">${TST[LV[x.r]][3]}</span>
-    <span>${WD[d.getDay()]} ${d.getDate()}.${d.getMonth()+1}. ${p2(d.getHours())}:${p2(d.getMinutes())} · ${esc(x.spot)}<small>${TST[LV[x.r]][0]}${x.model?` · app said ${TST[LV[x.model.lvl]][0]}`:""}${x.note?" · "+esc(x.note):""}</small></span>
+  const rows=[...list].reverse().slice(0,8).map(x=>{const d=new Date(x.when);return `<div class="rrow2"><span class="lv st-${LV[x.r]}">${x.r}</span>
+    <span>${WD[d.getDay()]} ${d.getDate()}.${d.getMonth()+1}. ${p2(d.getHours())}:${p2(d.getMinutes())} · ${esc(x.spot)}<small>${TST[LV[x.r]][0]}${x.model?` · app said ${x.model.lvl} ${TST[LV[x.model.lvl]][0]}`:""}${x.note?" · "+esc(x.note):""}</small></span>
     <span></span><button class="del" data-id="${x.id}" aria-label="Delete rating">×</button></div>`}).join("");
   el.innerHTML=`<p class="rsum">${list.length} rating${list.length>1?"s":""}${withM.length?` · app matched ${exact} exactly, ${near} within one step`:""}</p>`+rows+(list.length>8?`<p class="rsum">+ ${list.length-8} older</p>`:"");
   el.querySelectorAll(".del").forEach(b=>b.onclick=()=>{
@@ -1009,7 +1012,7 @@ function renderRatings(){
     LS.set("ratings",getRatings().filter(x=>x.id!==+b.dataset.id));renderRatings()});
 }
 function ratingsCSV(){
-  const h="date,time,spot,rating(1 wet 2 WB 3 normal 4 dry),app_level,wetness_mm,evap_since_wet_mm,dry_hours,rain_24h_mm,rain_72h_mm,rain_7d_mm,gust_kmh,temp_c,model_place,note";
+  const h="date,time,spot,rating,app_level,wetness_mm,evap_since_wet_mm,dry_hours,rain_24h_mm,rain_72h_mm,rain_7d_mm,gust_kmh,temp_c,model_place,note";
   return [h,...getRatings().map(x=>{const m=x.model||{};return [x.when.slice(0,10),x.when.slice(11,16),x.spot,x.r,m.lvl??"",m.W??"",m.evap??"",m.dryH??"",m.r24??"",m.r72??"",m.r7d??"",m.gust??"",m.temp??"",m.place?`"${m.place}"`:"",x.note?`"${x.note.replace(/"/g,"'")}"`:""].join(",")})].join("\n");
 }
 document.querySelectorAll(".rbtns button").forEach(b=>b.onclick=()=>saveRating(+b.dataset.r));
